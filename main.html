@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        @import url("main.css");
+        @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+
+<body onload="greetings()">
+    <div class="container top" id="main">
+        <div class="running-devices-status-grettings">
+            <div class="info-block" id="greetings">
+                <!-- <h4>Greetings</h4> -->
+            </div>
+
+            <div class="current-status" id="running-device">
+                <!-- running device status -->
+            </div>
+            <div class="notification-status" id="more-notification">
+                <a href="#">see more</a>
+            </div>
+        </div>
+        <div class="temp-status-div">
+            <div class="temp-status-div-date" id="current-date">
+                <!-- showing date -->
+            </div>
+
+            <div class="temp-status-div-temp" id="current-temp">
+                <!-- showing current temp  -->
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 30px;">My Devices</div>
+
+    <div class="container" id="devices">
+        <div class="device-items">
+            <div class="device-item">
+                <div class="btn">
+                    <i class="far fa-lightbulb"></i> &nbsp; Lamp1
+                </div>
+                <div class="btn-status">
+                    Closed
+                </div>
+            </div>
+
+            <div class="device-item">
+                <div class="btn">
+                    <i class="fas fa-lightbulb"></i> &nbsp; Lamp2
+                </div>
+                <div class="btn-status">
+                    Enabled
+                </div>
+            </div>
+
+            <div class="device-item">
+                <div class="btn">
+                    <i class="far fa-lightbulb"></i> &nbsp; Lamp3
+                </div>
+                <div class="btn-status">
+                    Closed
+                </div>
+            </div>
+
+            <div class="device-item">
+                <div class="btn">
+                    <i class="fas fa-fan"></i></i> &nbsp; Fan
+                </div>
+                <div class="btn-status">
+                    Closed
+                </div>
+            </div>
+        </div>
+
+        <div class="jjdg">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+    
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>

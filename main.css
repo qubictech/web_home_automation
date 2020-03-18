@@ -1,0 +1,80 @@
+@import url("style.css");
+
+body{
+    margin: 0 auto;
+    padding: 0;
+}
+
+.container{    
+    padding: 10px;
+    display: flex;
+    justify-content: space-between; 
+}
+
+.device-items{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: 2;
+    width: 50%;
+    height: 50%;
+}
+
+.current-status, .temp-status-div{
+    font-size: small;
+}
+a{
+    font-size: small;
+}
+
+h4{
+    margin: 0;
+    padding: 0;
+}
+
+.temp-status-div-date{
+    margin-right: 15px;
+}
+
+.temp-status-div-temp{
+    text-align: end;
+}
+
+.active-device-flex-list{
+    display: block;
+
+}
+.btn{
+    font-size: large;
+}
+.btn-status{
+    font-size: smaller;
+    text-align: start;
+    margin-left: 15px;
+}
+.device-item{  
+    margin-top: 10px;     
+    min-width: 100px;     
+    margin-right: 20px;
+    padding: 10px;
+    width: auto;
+    height:auto;
+    background-color: #fcfcfc;
+    box-shadow:  0 0 10px  rgba(0,0,0,0.6);
+        -moz-box-shadow: 0 0 10px  rgba(0,0,0,0.6);
+        -webkit-box-shadow: 0 0 10px  rgba(0,0,0,0.6);
+        -o-box-shadow: 0 0 10px  rgba(0,0,0,0.6);
+    border-radius:20px;
+}
+.temp-status-div{
+    display: flex;    
+    padding: 10px;
+    width: auto;
+    padding-left: 15px;
+    height:auto;
+    background-color: #eed;
+    box-shadow:  0 0 10px  rgba(0,0,0,0.6);
+        -moz-box-shadow: 0 0 10px  rgba(0,0,0,0.6);
+        -webkit-box-shadow: 0 0 10px  rgba(0,0,0,0.6);
+        -o-box-shadow: 0 0 10px  rgba(0,0,0,0.6);
+    border-radius:20px;
+}
