@@ -1,55 +1,94 @@
-firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
-        // User is signed in.
-        console.log("User is signed in.");
-        window.location.replace("main.html");
-    } else {
-        // User is signed out.        
-        console.log("User is signed out.");
-        window.location.replace("index.html");
-    }
+function getUserAuthStatus() {
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            // User is signed in.
+            console.log("User is signed in.");
+            window.location.replace("main.html");
+        } else {
+            // User is signed out.        
+            console.log("User is signed out.");
+            window.location.replace("index.html");
+        }
+    });
+}
+
+var database = firebase.database();
+// var ref = database.ref("user/mazharul_sabbir/info/");
+
+// ref.set({
+//     name: "Mazharul Sabbir",
+//     email: "admin@app.com"
+// });
+
+var ref = database.ref("user/mazharul_sabbir/firm_data/");
+
+var mFirmDataObj;
+
+ref.on('value', function (snapshot) {
+    snapshot.forEach(element => {
+        mFirmDataObj = element.val();
+
+        document.getElementById('my-device-list').innerHTML = deviceItem(mFirmDataObj.fans.f_name, mFirmDataObj.fans.f_status, 0);
+        document.getElementById('my-device-list').innerHTML += deviceItem(mFirmDataObj.light.l_name, mFirmDataObj.light.l_status, 1);
+        document.getElementById('my-device-list').innerHTML += deviceItem(mFirmDataObj.motor.m_name, mFirmDataObj.motor.m_status, 2);
+        document.getElementById('my-device-list').innerHTML += deviceItem(mFirmDataObj.pump.p_name, mFirmDataObj.pump.p_status, 3);
+
+        tempAndHumidity(mFirmDataObj.temp.c_temp, 10);
+    });
 });
 
-function loadJsChart(){
+function deviceItem(name, status, icon) {
+    var icons = ['<i class="fas fa-fan"></i></i>', '<i class="far fa-lightbulb"></i>', '<i class="fas fa-shower"></i>', '<i class="fas fa-gas-pump"></i>'];
+
+    return "<div class='device-item'><div class='btn'>" + icons[icon] + " &nbsp; " + name + "</div><div class='btn-status'>" + status + "</div>    </div>";
+}
+
+function tempAndHumidity(temp, humidity) {
+    document.getElementById("current-temp").innerHTML += "<b>" + temp.toFixed(2) + "</b> °C<hr>";
+
+    document.getElementById("current-temp").innerHTML += "Humidity<br>" + humidity + "%";
+}
+
+function loadJsChart() {
     var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
-                datasets: [{
-                    label: 'Average Temperature',
-                    data: [12, 19, 3, 5, 2, 3,10],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
+            datasets: [{
+                label: 'Average Temperature',
+                data: [29, 27, 30, 31, 30, 28, 29],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
                 }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
             }
-        });
+        }
+    });
 }
 
 
@@ -74,11 +113,6 @@ function greetings() {
     document.getElementById("current-date").innerHTML = "<i class='fas fa-sun'></i>&nbsp;&nbsp;<b>" + months[day.getMonth()] + " " + day.getDate() + "th,</b> <br>" + days[day.getDay()];
 
     document.getElementById("more-notification").innerHTML = "<a href='#'>and " + 2 + " more</a>";
-    var temp = 29;
-    document.getElementById("current-temp").innerHTML += "<b>" + temp + "</b> °C<hr>";
-
-    var humidity = 10;
-    document.getElementById("current-temp").innerHTML += "Humidity<br>" + humidity + "%";
 
     var runningDevices = "Living room lamp is opening. <br>Speaker is playing..";
     document.getElementById("running-device").innerHTML = runningDevices;

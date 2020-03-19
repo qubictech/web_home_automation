@@ -11,11 +11,19 @@ body{
     justify-content: space-between; 
 }
 
+.container.top{
+margin-top: 50px;
+}
+
+.container.devices{
+    margin-top: 0;
+}
+
 .device-items{
     display: grid;
     grid-template-columns: repeat(3,1fr);
     grid-template-rows: 2;
-    width: 50%;
+    width: 40%;
     height: 50%;
 }
 
