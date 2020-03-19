@@ -21,6 +21,7 @@ var mFirmDataObj;
 ref.on('value', function (snapshot) {
     snapshot.forEach(element => {
         mFirmDataObj = element.val();
+        var msg = "";
 
         var fan = mFirmDataObj.fans.f_name;
         var light = mFirmDataObj.light.l_name;
@@ -31,6 +32,12 @@ ref.on('value', function (snapshot) {
         var lStatus = mFirmDataObj.light.l_status;
         var mStatus = mFirmDataObj.motor.m_status;
         var pStatus = mFirmDataObj.pump.p_status;
+
+        if (fanStatus) msg += "Fan, ";
+        if (lStatus) msg += "Light, ";
+        if (mStatus) msg += "Motor, ";
+        if (pStatus) msg += "Pump, ";
+
 
         document.getElementById('my-device-list').innerHTML = deviceItem(fan, fanStatus, 0);
         document.getElementById('my-device-list').innerHTML += deviceItem(light, lStatus, 1);
@@ -71,6 +78,11 @@ ref.on('value', function (snapshot) {
             });
         })
 
+        if (msg)
+            notification('<i class="fas fa-bullhorn"></i> &nbsp;&nbsp;<b>' + msg + "</b> is running..!<br>");
+        else
+            notification('<i class="fas fa-bullhorn"></i> &nbsp;&nbsp;<b>Nothing</b> is running..!<br>');
+
     });
 });
 
@@ -88,7 +100,6 @@ function deviceItem(name, status, icon) {
     var itemOff = "<div class='device-item' style='cursor: pointer;' id='" + name + "'><div class='btn'>" + icons[icon] + " &nbsp; " + name + "</div><div class='btn-status'>" + connectivity + "</div>    </div>";
 
     if (status) {
-        notification('<i class="fas fa-bullhorn"></i> &nbsp;&nbsp;' + name + " is running..<br>");
         return itemOn;
     }
     else return itemOff;
@@ -107,8 +118,30 @@ function loadJsChart() {
         data: {
             labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
             datasets: [{
-                label: 'Average Temperature',
+                label: 'Temp',
                 data: [29, 27, 30, 31, 30, 28, 29],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }, {
+                label: 'Humidity',
+                data: [7, 11, 5, 8, 3, 7],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
