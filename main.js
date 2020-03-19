@@ -13,12 +13,6 @@ function getUserAuthStatus() {
 }
 
 var database = firebase.database();
-// var ref = database.ref("user/mazharul_sabbir/info/");
-
-// ref.set({
-//     name: "Mazharul Sabbir",
-//     email: "admin@app.com"
-// });
 
 var ref = database.ref("user/mazharul_sabbir/firm_data/");
 
@@ -33,40 +27,75 @@ ref.on('value', function (snapshot) {
         var motor = mFirmDataObj.motor.m_name;
         var pump = mFirmDataObj.pump.p_name;
 
-        document.getElementById('my-device-list').innerHTML = deviceItem(fan, mFirmDataObj.fans.f_status, 0);
-        document.getElementById('my-device-list').innerHTML += deviceItem(light, mFirmDataObj.light.l_status, 1);
-        document.getElementById('my-device-list').innerHTML += deviceItem(motor, mFirmDataObj.motor.m_status, 2);
-        document.getElementById('my-device-list').innerHTML += deviceItem(pump, mFirmDataObj.pump.p_status, 3);
+        var fanStatus = mFirmDataObj.fans.f_status;
+        var lStatus = mFirmDataObj.light.l_status;
+        var mStatus = mFirmDataObj.motor.m_status;
+        var pStatus = mFirmDataObj.pump.p_status;
+
+        document.getElementById('my-device-list').innerHTML = deviceItem(fan, fanStatus, 0);
+        document.getElementById('my-device-list').innerHTML += deviceItem(light, lStatus, 1);
+        document.getElementById('my-device-list').innerHTML += deviceItem(motor, mStatus, 2);
+        document.getElementById('my-device-list').innerHTML += deviceItem(pump, pStatus, 3);
 
         tempAndHumidity(mFirmDataObj.temp.c_temp, 10);
 
         document.getElementById(fan).addEventListener("click", function () {
-            window.alert("Clicked");
+            var ref = database.ref("user/mazharul_sabbir/firm_data/1581694698821/fans/");
+
+            ref.update({
+                f_status: !fanStatus
+            });
         })
 
         document.getElementById(light).addEventListener("click", function () {
-            window.alert("Clicked");
+            var ref = database.ref("user/mazharul_sabbir/firm_data/1581694698821/light/");
+
+            ref.update({
+                l_status: !lStatus
+            });
         })
 
         document.getElementById(motor).addEventListener("click", function () {
-            window.alert("Clicked");
+            var ref = database.ref("user/mazharul_sabbir/firm_data/1581694698821/motor/");
+
+            ref.update({
+                m_status: !mStatus
+            });
         })
 
         document.getElementById(pump).addEventListener("click", function () {
-            window.alert("Clicked");
+            var ref = database.ref("user/mazharul_sabbir/firm_data/1581694698821/pump/");
+
+            ref.update({
+                p_status: !pStatus
+            });
         })
 
     });
 });
 
+function notification(msg) {
+    document.getElementById("running-device").innerHTML = msg;
+}
+
 function deviceItem(name, status, icon) {
     var icons = ['<i class="fas fa-fan"></i></i>', '<i class="far fa-lightbulb"></i>', '<i class="fas fa-shower"></i>', '<i class="fas fa-gas-pump"></i>'];
 
-    return "<div class='device-item' style='cursor: pointer;' id=" + name + "><div class='btn'>" + icons[icon] + " &nbsp; " + name + "</div><div class='btn-status'>" + status + "</div>    </div>";
+    var connectivity = "";
+    if (status) connectivity = "Enabled"; else connectivity = "Closed";
+
+    var itemOn = "<div class='device-item' style='cursor: pointer; background-color: #ff8a65;' id='" + name + "'><div class='btn'>" + icons[icon] + " &nbsp; " + name + "</div><div class='btn-status'>" + connectivity + "</div>    </div>";
+    var itemOff = "<div class='device-item' style='cursor: pointer;' id='" + name + "'><div class='btn'>" + icons[icon] + " &nbsp; " + name + "</div><div class='btn-status'>" + connectivity + "</div>    </div>";
+
+    if (status) {
+        notification('<i class="fas fa-bullhorn"></i> &nbsp;&nbsp;' + name + " is running..<br>");
+        return itemOn;
+    }
+    else return itemOff;
 }
 
 function tempAndHumidity(temp, humidity) {
-    document.getElementById("current-temp").innerHTML += "<b>" + temp.toFixed(2) + "</b> °C<hr>";
+    document.getElementById("current-temp").innerHTML = "<b>" + temp.toFixed(2) + "</b> °C<hr>";
 
     document.getElementById("current-temp").innerHTML += "Humidity<br>" + humidity + "%";
 }
@@ -113,7 +142,6 @@ function loadJsChart() {
     });
 }
 
-
 function greetings() {
     var day = new Date();
     var hr = day.getHours();
@@ -133,11 +161,6 @@ function greetings() {
     var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     document.getElementById("current-date").innerHTML = "<i class='fas fa-sun'></i>&nbsp;&nbsp;<b>" + months[day.getMonth()] + " " + day.getDate() + "th,</b> <br>" + days[day.getDay()];
-
-    // document.getElementById("more-notification").innerHTML = "<a href='#'>and " + 2 + " more</a>";
-
-    var runningDevices = "<i class='far fa-bell'> &nbsp;</i>Living room lamp is opening. <br>Speaker is playing.. <a href='#'>and " + 2 + " more</a>";
-    document.getElementById("running-device").innerHTML = runningDevices;
 
     loadJsChart();
 }
