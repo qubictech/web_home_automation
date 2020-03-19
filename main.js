@@ -28,19 +28,41 @@ ref.on('value', function (snapshot) {
     snapshot.forEach(element => {
         mFirmDataObj = element.val();
 
-        document.getElementById('my-device-list').innerHTML = deviceItem(mFirmDataObj.fans.f_name, mFirmDataObj.fans.f_status, 0);
-        document.getElementById('my-device-list').innerHTML += deviceItem(mFirmDataObj.light.l_name, mFirmDataObj.light.l_status, 1);
-        document.getElementById('my-device-list').innerHTML += deviceItem(mFirmDataObj.motor.m_name, mFirmDataObj.motor.m_status, 2);
-        document.getElementById('my-device-list').innerHTML += deviceItem(mFirmDataObj.pump.p_name, mFirmDataObj.pump.p_status, 3);
+        var fan = mFirmDataObj.fans.f_name;
+        var light = mFirmDataObj.light.l_name;
+        var motor = mFirmDataObj.motor.m_name;
+        var pump = mFirmDataObj.pump.p_name;
+
+        document.getElementById('my-device-list').innerHTML = deviceItem(fan, mFirmDataObj.fans.f_status, 0);
+        document.getElementById('my-device-list').innerHTML += deviceItem(light, mFirmDataObj.light.l_status, 1);
+        document.getElementById('my-device-list').innerHTML += deviceItem(motor, mFirmDataObj.motor.m_status, 2);
+        document.getElementById('my-device-list').innerHTML += deviceItem(pump, mFirmDataObj.pump.p_status, 3);
 
         tempAndHumidity(mFirmDataObj.temp.c_temp, 10);
+
+        document.getElementById(fan).addEventListener("click", function () {
+            window.alert("Clicked");
+        })
+
+        document.getElementById(light).addEventListener("click", function () {
+            window.alert("Clicked");
+        })
+
+        document.getElementById(motor).addEventListener("click", function () {
+            window.alert("Clicked");
+        })
+
+        document.getElementById(pump).addEventListener("click", function () {
+            window.alert("Clicked");
+        })
+
     });
 });
 
 function deviceItem(name, status, icon) {
     var icons = ['<i class="fas fa-fan"></i></i>', '<i class="far fa-lightbulb"></i>', '<i class="fas fa-shower"></i>', '<i class="fas fa-gas-pump"></i>'];
 
-    return "<div class='device-item'><div class='btn'>" + icons[icon] + " &nbsp; " + name + "</div><div class='btn-status'>" + status + "</div>    </div>";
+    return "<div class='device-item' style='cursor: pointer;' id=" + name + "><div class='btn'>" + icons[icon] + " &nbsp; " + name + "</div><div class='btn-status'>" + status + "</div>    </div>";
 }
 
 function tempAndHumidity(temp, humidity) {
@@ -112,9 +134,9 @@ function greetings() {
 
     document.getElementById("current-date").innerHTML = "<i class='fas fa-sun'></i>&nbsp;&nbsp;<b>" + months[day.getMonth()] + " " + day.getDate() + "th,</b> <br>" + days[day.getDay()];
 
-    document.getElementById("more-notification").innerHTML = "<a href='#'>and " + 2 + " more</a>";
+    // document.getElementById("more-notification").innerHTML = "<a href='#'>and " + 2 + " more</a>";
 
-    var runningDevices = "Living room lamp is opening. <br>Speaker is playing..";
+    var runningDevices = "<i class='far fa-bell'> &nbsp;</i>Living room lamp is opening. <br>Speaker is playing.. <a href='#'>and " + 2 + " more</a>";
     document.getElementById("running-device").innerHTML = runningDevices;
 
     loadJsChart();

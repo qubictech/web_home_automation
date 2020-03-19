@@ -10,9 +10,22 @@ body{
     display: flex;
     justify-content: space-between; 
 }
+.temperature-chart{
+    width: 30%;
+}
+
+i{
+    font-family: 'Poppins', sans-serif;
+    
+}
 
 .container.top{
 margin-top: 50px;
+}
+
+.container.headings{
+    margin-top: 10px;
+    justify-content: start;
 }
 
 .container.devices{
