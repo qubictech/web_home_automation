@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+        @import url("../style/login_page_style.css");
+    </style>
+</head>
+
+<body>
+    <div class="main-input">
+        <div class="login-heading">
+            <h3>Login to continue</h3>
+        </div>
+        <div class="login-email" id="email-div">
+            <input type="email" placeholder="user@email.com" name="Email" id="email">
+        </div>
+        <div class="login-pass" id="pass-div">
+            <input type="password" placeholder="Password" name="Password" id="pass">
+        </div>
+
+        <div class="main-btn">
+            <input type="submit" class="btn" value="Login To Account" onclick="signInWithEmailPassword()">
+        </div>
+    </div>
+
+    <!-- firebase -->
+    <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase.js"></script>
+    <script src="../controller/firebase_config.js"></script>
+    <!-- firebase ends -->
+    <script src="../authentication/auth.js"></script>
+    <script>
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                // User is signed in.
+                console.log("User is signed in")
+                window.location.replace("../pages/dashboard.html")
+            }
+        });
+    </script>
+</body>
+
+</html>

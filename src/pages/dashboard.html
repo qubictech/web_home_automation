@@ -4,16 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Dashboard</title>
     <style>
-        @import url("main.css");
+        @import url("../style/dashboard_style.css");
         @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
-<body onload="greetings()">
+<body>
+    <header class="mdc-top-app-bar" style="background-color: #ff8a65;">
+        <div class="container mdc-top-app-bar__row">
+
+            <h6 class="mdc-top-app-bar__title">Firm Automation</h6>
+
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+                <button onclick="logout()">LOGOUT</button>
+            </section>
+        </div>
+    </header>
+
     <div class="container top" id="main">
         <div class="running-devices-status-grettings">
             <div class="info-block" id="greetings">
@@ -38,7 +50,8 @@
 
     <div class="container headings">
         <div><i class="fas fa-sliders-h"></i></div>
-        &nbsp;&nbsp;&nbsp;My Devices</div>
+        &nbsp;&nbsp;&nbsp;My Devices
+    </div>
 
     <div class="container devices" id="devices">
         <div class="device-items" id="my-device-list">
@@ -49,28 +62,36 @@
             <canvas id="myChart"></canvas>
         </div>
     </div>
-    
+
+    <div class="container statistics" id="id">
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- firebase -->
     <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase.js"></script>
-    <script>
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-            apiKey: "AIzaSyCsPL3qYNUZswDhVl42tGIM8RZDnZ8kvxc",
-            authDomain: "iot-abs.firebaseapp.com",
-            databaseURL: "https://iot-abs.firebaseio.com",
-            projectId: "iot-abs",
-            storageBucket: "iot-abs.appspot.com",
-            messagingSenderId: "292141374117",
-            appId: "1:292141374117:web:a3bb8eafa26a2884da4b4c",
-            measurementId: "G-K2R9CTMY8M"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-    </script>
+    <script src="../controller/firebase_config.js"></script>
     <!-- firebase ends -->
+
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <script src="main.js"></script>
+    <script src="../controller/greetings.js"></script>
+    <script src="../service/database.js"></script>
+    <script src="../controller/charts.js"></script>
+    <script src="../authentication/auth.js"></script>
 </body>
 
 </html>

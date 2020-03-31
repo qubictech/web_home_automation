@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Firm Automation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+    </style>
+</head>
+
+<body>
+    <!-- firebase -->
+    <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase.js"></script>
+    <script src="controller/firebase_config.js"></script>
+    <!-- firebase ends -->
+
+    <script>
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                // User is signed in.
+                console.log("User is signed in")
+                window.location.replace("pages/dashboard.html")
+            } else {
+                // User is signed out.
+                console.log("User is signed out.")
+                window.location.replace("pages/login.html")
+            }
+        });
+    </script>
+</body>
+
+</html>
