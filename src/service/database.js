@@ -83,8 +83,9 @@ function deviceItem(name, status, icon) {
     var connectivity = "";
     if (status) connectivity = "Enabled"; else connectivity = "Closed";
 
-    var itemOn = "<div class='device-item' style='cursor: pointer; background-color: #ff8a65;' id='" + name + "'><div class='btn'>" + icons[icon] + " &nbsp; " + name + "</div><div class='btn-status'>" + connectivity + "</div>    </div>";
-    var itemOff = "<div class='device-item' style='cursor: pointer;' id='" + name + "'><div class='btn'>" + icons[icon] + " &nbsp; " + name + "</div><div class='btn-status'>" + connectivity + "</div>    </div>";
+    // var itemOn = "<div class='device-item' style='cursor: pointer; background-color: #ff8a65;' id='" + name + "'><div class='btn'>" + icons[icon] + " &nbsp; " + name + "</div><div class='btn-status'>" + connectivity + "</div>    </div>";            
+    var itemOn = "<div class='device-item' style='cursor: pointer; background-color: #ff8a65;' id='" + name + "'><div class='device-item-div device-name - icon'><div class='icon' style='padding-right: 10px;'>" + icons[icon] + "</div><div class='title'>" + name + "</div></div><div class='btn-status'>" + connectivity + "</div></div>";
+    var itemOff = "<div class='device-item' style='cursor: pointer;' id='" + name + "'><div class='device-item-div device-name - icon'><div class='icon' style='padding-right: 10px;'>" + icons[icon] + "</div><div class='title'>" + name + "</div></div><div class='btn-status'>" + connectivity + "</div></div>";
 
     if (status) {
         return itemOn;

@@ -65,7 +65,6 @@ h4{
 
 .active-device-flex-list{
     display: block;
-
 }
 
 .btn-status{
@@ -73,12 +72,20 @@ h4{
     text-align: start;
     margin-left: 15px;
 }
+
+.device-item-div{
+    display: flex;
+    justify-content: start;
+    padding: 0;
+}
+
 .device-item{      
     margin-top: 10px;     
-    min-width: 100px;     
-    margin-right: 20px;
+    min-width: 120px;     
+    margin-right: 10px;
     padding: 10px;
     width: auto;
+    min-height: 80px;
     height:auto;
     background-color: #fcfcfc;
     box-shadow:  0 0 10px  rgba(0,0,0,0.6);
