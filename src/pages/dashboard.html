@@ -59,27 +59,18 @@
         </div>
 
         <div class="temperature-chart">
-            <canvas id="myChart"></canvas>
+            <canvas id="myChart"> </canvas>
         </div>
     </div>
 
     <div class="container statistics" id="id">
-
+        <div class="barchart">
+            <canvas id="myBarChart" width="400" height="400"></canvas>
+        </div>
+        <div class="piechart">
+            <canvas id="myPieChart" width="400" height="400"></canvas>
+        </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <!-- firebase -->
@@ -90,7 +81,9 @@
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="../controller/greetings.js"></script>
     <script src="../service/database.js"></script>
-    <script src="../controller/charts.js"></script>
+    <script src="../controller/charts.js">
+        lineChart();
+    </script>
     <script src="../authentication/auth.js"></script>
 </body>
 

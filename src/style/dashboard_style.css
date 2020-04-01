@@ -67,16 +67,17 @@ h4{
     display: block;
 }
 
-.btn-status{
+.btn-status,.running-time{    
     font-size: smaller;
     text-align: start;
-    margin-left: 15px;
+    margin-left: 10px;
 }
 
 .device-item-div{
     display: flex;
     justify-content: start;
     padding: 0;
+    margin-bottom: 10px;
 }
 
 .device-item{      
