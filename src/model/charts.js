@@ -61,23 +61,38 @@ var myChart = new Chart(ctx, {
     }
 });
 
+var database = firebase.database();
 
+var ref = database.ref("user/mazharul_sabbir/firm_data/");
+
+var mFirmDataObj;
+
+
+
+ref.on('value',function(snapshot){
+    var fUsedTime = mFirmDataObj.fans.total_used_time
+    var lUsedTime = mFirmDataObj.light.total_used_time
+    var mUsedTime = mFirmDataObj.motor.total_used_time
+    var pUsedTime = mFirmDataObj.pump.total_used_time
+
+    
 // bar chart
 var ctx = document.getElementById('myBarChart').getContext('2d');
 var myChart = new Chart(ctx, {
-    type: 'horizontalBar',
+    type: 'bar',
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: ['Fan', 'Light', 'Motor', 'Water Pump'],
         datasets: [{
-            label: '# of Votes',
-            data: [10, 20, 30, 40, 50, 60, 70],
+            order: 0,
+            label: 'Uses in hours',
+            data: [fUsedTime, lUsedTime, mUsedTime, pUsedTime],
             backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
             ],
             borderColor: [
                 'rgba(255, 99, 132, 1)',
@@ -94,9 +109,9 @@ var myChart = new Chart(ctx, {
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero: true
+                    beginAtZero: true,
                 }
-            }]
+            }],
         }
     }
 });
@@ -106,17 +121,16 @@ var ctx = document.getElementById('myPieChart').getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'pie',
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: ['Fan', 'Light', 'Motor', 'Water Pump'],
         datasets: [{
-            label: '# of Votes',
-            data: [10, 20, 30, 40, 50, 60, 70],
+            data: [fUsedTime, lUsedTime, mUsedTime, pUsedTime],
             backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
             ],
         }]
     },
@@ -130,3 +144,5 @@ var myChart = new Chart(ctx, {
         }
     }
 });
+
+})

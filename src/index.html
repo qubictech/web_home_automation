@@ -7,14 +7,23 @@
     <title>Welcome to Firm Automation</title>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+        @import url("style/style.css");
     </style>
 </head>
 
 <body>
     <!-- firebase -->
     <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase.js"></script>
-    <script src="controller/firebase_config.js"></script>
+    <script src="model/firebase_config.js"></script>
     <!-- firebase ends -->
+
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+    <div class="loading-div">
+        <lottie-player src="https://assets6.lottiefiles.com/datafiles/KS8ZpEdYbIuaZqg/data.json"
+            background="transparent" speed="1" style="width: 600px; height: 600px;" loop autoplay>
+        </lottie-player>
+    </div>
 
     <script>
         firebase.auth().onAuthStateChanged(function (user) {

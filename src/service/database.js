@@ -25,19 +25,15 @@ ref.on('value', function (snapshot) {
         var mOnOffTime = mFirmDataObj.motor.on_off_time
         var pOnOffTime = mFirmDataObj.pump.on_off_time
 
+        var fUsedTime = mFirmDataObj.fans.total_used_time
+        var lUsedTime = mFirmDataObj.light.total_used_time
+        var mUsedTime = mFirmDataObj.motor.total_used_time
+        var pUsedTime = mFirmDataObj.pump.total_used_time
+
         if (fanStatus) msg += "Fan, ";
         if (lStatus) msg += "Light, ";
         if (mStatus) msg += "Motor, ";
         if (pStatus) msg += "Pump, ";
-
-
-        if (fanStatus) {
-            setInterval(() => {
-                console.log("Running......")
-            }, 1000);
-        }else{
-            clearInterval()
-        }
 
         document.getElementById('my-device-list').innerHTML = deviceItem(fan, fanStatus, fOnOffTime, 0);
         document.getElementById('my-device-list').innerHTML += deviceItem(light, lStatus, lOnOffTime, 1);
@@ -46,42 +42,94 @@ ref.on('value', function (snapshot) {
 
         tempAndHumidity(mFirmDataObj.temp.c_temp, 10);
 
-        var date = new Date();
+        var date = new Date()
 
         document.getElementById(fan).addEventListener("click", function () {
             var ref = database.ref("user/mazharul_sabbir/firm_data/1581694698821/fans/");
-            ref.update({
-                f_status: !fanStatus,
-                on_off_time: date.getTime()
-            });
+
+            if (fanStatus) {
+                var endTime = new Date();
+                var difference = endTime.getTime() - fOnOffTime; // This will give difference in milliseconds
+                var resultInMinutes = Math.round(difference / 60000);
+
+                console.log(resultInMinutes)
+
+                ref.update({
+                    f_status: !fanStatus,
+                    on_off_time: date.getTime(),
+                    total_used_time: resultInMinutes+fUsedTime
+                });
+            } else {
+                ref.update({
+                    f_status: !fanStatus,
+                    on_off_time: date.getTime()
+                });
+            }
 
         })
 
         document.getElementById(light).addEventListener("click", function () {
             var ref = database.ref("user/mazharul_sabbir/firm_data/1581694698821/light/");
+            if (lStatus) {
+                var endTime = new Date();
+                var difference = endTime.getTime() - lOnOffTime; // This will give difference in milliseconds
+                var resultInMinutes = Math.round(difference / 60000);
 
-            ref.update({
-                l_status: !lStatus,
-                on_off_time: date.getTime()
-            });
+                console.log(resultInMinutes)
+
+                ref.update({
+                    l_status: !lStatus,
+                    on_off_time: date.getTime(),
+                    total_used_time: resultInMinutes+lUsedTime
+                });
+            } else
+                ref.update({
+                    l_status: !lStatus,
+                    on_off_time: date.getTime()
+                });
         })
 
         document.getElementById(motor).addEventListener("click", function () {
             var ref = database.ref("user/mazharul_sabbir/firm_data/1581694698821/motor/");
 
-            ref.update({
-                m_status: !mStatus,
-                on_off_time: date.getTime()
-            });
+            if (mStatus) {
+                var endTime = new Date();
+                var difference = endTime.getTime() - mOnOffTime; // This will give difference in milliseconds
+                var resultInMinutes = Math.round(difference / 60000);
+
+                console.log(resultInMinutes)
+
+                ref.update({
+                    m_status: !mStatus,
+                    on_off_time: date.getTime(),
+                    total_used_time: resultInMinutes+mUsedTime
+                });
+            } else
+                ref.update({
+                    m_status: !mStatus,
+                    on_off_time: date.getTime()
+                });
         })
 
         document.getElementById(pump).addEventListener("click", function () {
             var ref = database.ref("user/mazharul_sabbir/firm_data/1581694698821/pump/");
+            if (pStatus) {
+                var endTime = new Date();
+                var difference = endTime.getTime() - pOnOffTime; // This will give difference in milliseconds
+                var resultInMinutes = Math.round(difference / 60000);
 
-            ref.update({
-                p_status: !pStatus,
-                on_off_time: date.getTime()
-            });
+                console.log(resultInMinutes)
+
+                ref.update({
+                    p_status: !pStatus,
+                    on_off_time: date.getTime(),
+                    total_used_time: resultInMinutes+pUsedTime
+                });
+            } else
+                ref.update({
+                    p_status: !pStatus,
+                    on_off_time: date.getTime()
+                });
         })
 
         if (msg)
@@ -125,22 +173,46 @@ var DateDiff = {
     }
 }
 
+function get_time_diff(datetime) {
+    var datetime = typeof datetime !== 'undefined' ? datetime : "2014-01-01 01:02:03.123456";
+
+    var datetime = new Date(datetime).getTime();
+    var now = new Date().getTime();
+
+    if (isNaN(datetime)) {
+        return "";
+    }
+
+    console.log(datetime + " " + now);
+
+    if (datetime < now) {
+        var milisec_diff = now - datetime;
+    } else {
+        var milisec_diff = datetime - now;
+    }
+
+    var days = Math.floor(milisec_diff / 1000 / 3600 / (60 * 24));
+
+    var date_diff = new Date(milisec_diff);
+
+    return days + " Days " + date_diff.getHours() + " Hours " + date_diff.getMinutes() + " Minutes " + date_diff.getSeconds() + " Seconds";
+}
+
 function deviceItem(name, status, mOnOffTime, icon) {
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     var date = new Date(mOnOffTime)
-
-    var onOffTime =date.getDate() +" "+ months[date.getMonth()] +" at "+ date.getHours() +" : "+date.getMinutes()
+    var onOffTime = date.getDate() + " " + months[date.getMonth()] + " at " + date.getHours() + " : " + date.getMinutes()
 
     var icons = ['<i class="fas fa-fan"></i></i>', '<i class="far fa-lightbulb"></i>', '<i class="fas fa-shower"></i>', '<i class="fas fa-gas-pump"></i>'];
 
     var connectivity = "";
-    if (status) connectivity = "Enabled"; else connectivity = "Closed";
+    if (status) connectivity = "Running!"; else connectivity = "Stopped!";
 
     // var itemOn = "<div class='device-item' style='cursor: pointer; background-color: #ff8a65;' id='" + name + "'><div class='btn'>" + icons[icon] + " &nbsp; " + name + "</div><div class='btn-status'>" + connectivity + "</div>    </div>";            
-    var itemOn = "<div class='device-item' style='cursor: pointer; background-color: #ff8a65;' id='" + name + "'><div class='device-item-div device-name - icon'><div class='icon' style='padding-right: 10px;'>" + icons[icon] + "</div><div class='title'>" + name + "</div></div><div class='running-time'>" + onOffTime + "</div><div class='btn-status'>" + connectivity + "</div></div>";
-    var itemOff = "<div class='device-item' style='cursor: pointer;' id='" + name + "'><div class='device-item-div device-name - icon'><div class='icon' style='padding-right: 10px;'>" + icons[icon] + "</div><div class='title'>" + name + "</div></div><div class='running-time'>" + onOffTime + "</div><div class='btn-status'>" + connectivity + "</div></div>";
+    var itemOn = "<div class='device-item' style='cursor: pointer; background-color: #ff8a65;' id='" + name + "'><div class='device-item-div device-name - icon'><div class='icon' style='padding-right: 10px;'>" + icons[icon] + "</div><div class='title'>" + name + "</div></div><div class='device-item-running-time'><lottie-player src='https://assets4.lottiefiles.com/datafiles/i0DrGl1AyhF4rvhqpBUbia6zUEekgKoxRociBzZy/stopwatch.json'  background='transparent'  speed='1'  style='width: 24px; height: 24px;'  loop  autoplay ></lottie-player><div id='on_off_time" + name + "'>" + onOffTime + "</div></div><div class='btn-status'>" + connectivity + "</div></div>";
+    var itemOff = "<div class='device-item' style='cursor: pointer;' id='" + name + "'><div class='device-item-div device-name - icon'><div class='icon' style='padding-right: 10px;'>" + icons[icon] + "</div><div class='title'>" + name + "</div></div><div class='device-item-running-time'><i class='fas fa-stopwatch'></i><div>" + onOffTime + "</div></div><div class='btn-status'>" + connectivity + "</div></div>";
 
     if (status) {
         return itemOn;
